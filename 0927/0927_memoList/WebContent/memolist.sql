@@ -1,0 +1,1 @@
+# insert into 테이블이름(필드이름) values (저장할 데이터);

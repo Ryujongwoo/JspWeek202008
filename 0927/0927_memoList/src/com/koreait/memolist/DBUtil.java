@@ -14,7 +14,7 @@ public class DBUtil {
 		Connection conn = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			String url = "jdbc:mysql://localhost:3307/weekjsp";
+			String url = "jdbc:mysql://localhost:3307/weekjsp?useUnicode=true&characterEncoding=UTF-8";
 			conn = DriverManager.getConnection(url, "root", "0000");
 		} catch (ClassNotFoundException e) {
 			System.out.println("드라이버 클래스가 없거나 읽어올 수 없습니다.<br>");
