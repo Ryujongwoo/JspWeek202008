@@ -1,0 +1,16 @@
+오라클 포트 : 8080 -> 1521
+
+cmd창에서
+
+sqlplus /nolog
+conn /as sysdba
+
+select dbms_xdb.gethttpport() from dual;
+현재포트 확인 (8080 출력될 것)
+
+exec dbms_xdb.sethttpport(1521);
+1521포트로 변경
+
+exit
+exit
+

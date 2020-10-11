@@ -1,0 +1,4 @@
+쿼리 부분일치 조건, like
+oracle : like '%'||#검색어#||'%'
+mssql : like '%'+#검색어#+'%'
+mysql : like concat('%', #검색어#, '%')

@@ -1,0 +1,12 @@
+쿼리 like
+oracle : like '%'||'나다'||'%'
+mysql : like concat('%','나다','%')
+mssql : like '%'+'나다'+'%'
+
+오라클 11g 잠긴 계정 풀기
+1. 계정 상태확인
+   SELECT * FROM DBA_USERS;
+2. Lock 해제
+   ALTER USER [사용자명] ACCOUNT UNLOCK;
+3. 계정 비밀번호 변경
+   ALTER USER [사용자명] identified by [새로운 비밀번호]
