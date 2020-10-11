@@ -73,7 +73,18 @@
 //	게시판이 최초로 실행될 때 이전 페이지가 없으므로 pageSize가 null이기 때문에 예외 처리를 해야 한다.
 	try {
 		pageSize = Integer.parseInt(request.getParameter("pageSize"));
-	} catch (NumberFormatException e) { }
+//		콤보 박스에서 선택한 화면에 표시할 글의 개수를 브라우저가 실행중인 동안 유지해야 하기 때문에 세션에 저장한다.
+		session.setAttribute("pageSize", pageSize + "");
+	} catch (NumberFormatException e) {
+//		이전 페이지에서 넘어오는 pageSize가 없으면 세션에 저장된 pageSize를 얻어와서 화면에 표시할 글의 개수로
+//		지정한다.
+		String temp = (String) session.getAttribute("pageSize");
+//		브라우저가 최초로 실행될 때 세션이 만들어지기 때문에 브라우저가 최초로 실행되면 이전 페이지에서 넘어오는
+//		pageSize도 null이고 세션에 저장된 pageSize도 null이다.
+		if (temp != null) {
+			pageSize = Integer.parseInt(temp);
+		}
+	}
 	
 	totalPage = (totalCount - 1) / pageSize + 1;
 	
@@ -93,13 +104,14 @@
 	rs = pstmt.executeQuery();
 %>
 
-<table width="1000" align="center" border="1" cellpadding="5" cellspacing="0">
+<table width="1100" align="center" border="1" cellpadding="5" cellspacing="0">
 	<tr>
 		<th width="80">글번호</th>
 		<th width="80">이름</th>
 		<th width="640">메모</th>
 		<th width="100">작성일</th>
 		<th width="100">ip</th>
+		<th width="100">&nbsp;</th>
 	</tr>
 
 	<tr>
@@ -107,6 +119,7 @@
 			
 			<form action="?" method="post">
 				페이지당 표시할 글의 개수를 선택하세요
+				<!--
 				<select name="pageSize">
 					<option>3</option>
 					<option>5</option>
@@ -114,11 +127,20 @@
 					<option>15</option>
 					<option>20</option>
 				</select>
+				-->
+				<!--
+				<input type="radio" name="pageSize" value="3">3
+				<input type="radio" name="pageSize" value="5">5
+				<input type="radio" name="pageSize" value="10" checked="checked">10
+				<input type="radio" name="pageSize" value="15">15
+				<input type="radio" name="pageSize" value="20">20
+				-->
+				<input type="number" name="pageSize" value="10">
 				<input type="submit" value="보기">
 			</form>
 			
 		</td>
-		<td colspan="2" align="right">
+		<td colspan="3" align="right">
 			<%=totalCount%>개(<%=currentPage%> / <%=totalPage%>)Page
 		</td>
 	</tr>
@@ -130,11 +152,18 @@
 	%>
 	
 	<tr>
-		<td><%=rs.getInt("idx")%></th>
-		<td><%=rs.getString("name")%></th>
-		<td><%=rs.getString("memo")%></th>
-		<td><%=sdf.format(rs.getTimestamp("writeDate"))%></th>
-		<td><%=rs.getString("ip")%></th>
+		<td><%=rs.getInt("idx")%></td>
+		<td><%=rs.getString("name")%></td>
+		<td><%=rs.getString("memo")%></td>
+		<td><%=sdf.format(rs.getTimestamp("writeDate"))%></td>
+		<td><%=rs.getString("ip")%></td>
+		<td align="center">
+			<!-- 수정 또는 삭제 작업은 글번호와 수정 또는 삭제 작업 후 돌아갈 페이지 번호를 넘겨줘야 한다. -->
+			<input type="button" value="수정"
+				onclick="location.href='memoUpdate.jsp?idx=<%=rs.getInt("idx")%>&currentPage=<%=currentPage%>'">
+			<input type="button" value="삭제"
+				onclick="location.href='memoDelete.jsp?idx=<%=rs.getInt("idx")%>&currentPage=<%=currentPage%>'">
+		</td>
 	</tr>
 	
 	<%
@@ -154,7 +183,7 @@
 
 	
 	<tr>
-		<td colspan="5" align="center">
+		<td colspan="6" align="center">
 		
 		<%
 		startPage = (currentPage - 1) / 10 * 10 + 1;
