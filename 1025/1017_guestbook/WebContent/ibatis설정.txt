@@ -1,0 +1,11 @@
+db.properties 파일은 데이터베이스 연결 정보가 저장된 파일
+
+테이블이름.xml => 사용할 테이블 이름이 guestbook이라면 guestbook.xml
+DOCTYPE이 sqlMap인 xml 파일은 처리할 SQL 명령을 기억하는 xml 파일이다.
+
+SqlMapConfig.xml
+DOCTYPE이 sqlMapConfig인 파일은 iBATIS의 환경을 설정하는 xml 파일이다.
+properties의 위치와 DOCTYPE이 sqlMap인 xml 파일의 위치를 지정한다.
+
+MyAppSqlConfig.java
+SqlMapConfig.xml 파일에서 설정한 iBATIS 환경 설정 정보를 읽어서 mapper를 만들어 리턴한다.
