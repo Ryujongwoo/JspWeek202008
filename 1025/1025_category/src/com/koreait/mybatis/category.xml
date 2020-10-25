@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.koreait.vo.CategoryVO">
+
+	<!--
+		parameterClass => parameterType, resultClass => resultType
+		# ~ # 사이에 쓰던 sql 명령에 대입될 데이터를 #{ ~ } 사이에 쓴다.
+	-->
+
+	<!-- 메인 카테고리 한 건을 저장한다. -->
+	<insert id="insert" parameterType="vo">
+		<!-- category_idx_seq.currval => 현재 시퀀스 값 -->
+		insert into category (idx, category, ref, lev, seq) 
+		values (category_idx_seq.nextval, #{category}, category_idx_seq.currval, 0, 0)
+	</insert>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

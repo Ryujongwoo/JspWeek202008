@@ -45,7 +45,22 @@ public class GuestbookDAO {
 //	SelectService 클래스에서 호출되는 mapper와 수정 또는 삭제할 글번호를 넘겨받고 수정 또는 삭제할 글 한 건을 
 //	얻어오는 guestbook.xml 파일의 select sql 명령을 실행하는 메소드
 	public GuestbookVO selectByIdx(SqlMapClient mapper, int idx) throws SQLException {
+		System.out.println("GuestbookDAO 클래스의 selectByIdx() 메소드 실행");
 		return (GuestbookVO) mapper.queryForObject("selectByIdx", idx);
+	}
+	
+//	DeleteService 클래스에서 호출되는 mapper와 삭제할 글번호를 넘겨받고 글 한 건을 삭제하는 guestbook.xml 파일의
+//	delete sql 명령을 실행하는 메소드
+	public void delete(SqlMapClient mapper, int idx) throws SQLException {
+		System.out.println("GuestbookDAO 클래스의 delete() 메소드 실행");
+		mapper.delete("delete", idx);
+	}
+	
+//	UpdateService 클래스에서 호출되는 mapper와 수정할 정보가 저장된 객체를 넘겨받고 글 한 건을 수정하는 guestbook.xml
+//	파일의 update sql 명령을 실행하는 메소드
+	public void update(SqlMapClient mapper, GuestbookVO vo) throws SQLException {
+		System.out.println("GuestbookDAO 클래스의 update() 메소드 실행");
+		mapper.update("update", vo);
 	}
 	
 }

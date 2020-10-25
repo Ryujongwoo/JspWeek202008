@@ -35,6 +35,16 @@
 	<select id="selectByIdx" parameterClass="int" resultClass="vo">
 		select * from guestbook where idx = #idx#
 	</select>
+	
+	<!-- 글 한 건을 삭제한다. -->
+	<delete id="delete" parameterClass="int">
+		delete from guestbook where idx = #idx#
+	</delete>
+	
+	<!-- 글 한 건을 수정한다. -->
+	<update id="update" parameterClass="vo">
+		update guestbook set name = #name#, memo = #memo# where idx = #idx#
+	</update>
 
 </sqlMap>
 
