@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.koreait.vo.CategoryVO">
+
+	<!--
+		parameterClass => parameterType, resultClass => resultType
+		# ~ # 사이에 쓰던 sql 명령에 대입될 데이터를 #{ ~ } 사이에 쓴다.
+	-->
+
+	<!-- 메인 카테고리 한 건을 저장한다. -->
+	<insert id="insert" parameterType="vo">
+		<!-- category_idx_seq.currval => 현재 시퀀스 값 -->
+		insert into category (idx, category, ref, lev, seq) 
+		values (category_idx_seq.nextval, #{category}, category_idx_seq.currval, 0, 0)
+	</insert>
+	
+	<!-- 전체 카테고리 목록을 얻어온다. -->
+	<select id="selectList" resultType="vo">
+		select * from category order by ref desc, seq asc
+	</select>
+	
+	 <!-- 같은 그룹의 카테고리에서 카테고리 출력 순서를 조정하기 위해 seq를 수정한다. -->
+	 <update id="increment" parameterType="java.util.HashMap">
+	 	<!-- ref, seq는 category 테이블의 필드이고 #{ref}, #{seq}는 HashMap 객체에 저장되서 넘어온 데이터이다. -->
+	 	update category set seq = seq + 1 where ref = #{ref} and seq >= #{seq}
+	 </update>
+	
+	<!-- 서브 카테고리를 저장한다. -->
+	<insert id="reply" parameterType="vo">
+		insert into category (idx, category, ref, lev, seq) 
+		values (category_idx_seq.nextval, #{category}, #{ref}, #{lev}, #{seq})
+	</insert>
+	
+	<!-- 수정 또는 삭제할 카테고리 한 건을 얻어온다. -->
+	<select id="selectByIdx" parameterType="int" resultType="vo">
+		select * from category where idx = #{idx}
+	</select>
+	
+	<!-- 카테고리 한 건을 삭제한다. -->
+	<delete id="delete" parameterType="int">
+		delete from category where idx = #{idx}
+	</delete>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
